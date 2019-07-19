@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.siyuan.intplatform.web.dao.system.StudentsDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.siyuan.intplatform.web.entity.system.Students">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updatetime" property="updatetime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, age, createtime, updatetime
+    </sql>
+
+
+    <select id="queryStudentInfos" resultMap="BaseResultMap">
+
+        select
+        <include refid="Base_Column_List"/>
+        from students
+        <where>
+            <if test="keyWord != null and keyWord != ''">
+                and name like CONCAT('%', #{keyWord},'%')
+            </if>
+
+            <if test="pageInfo != null ">
+                <if test="pageInfo.startTime != null and pageInfo.startTime != ''">
+                    AND createtime &gt;= STR_TO_DATE(#{pageInfo.startTime}, '%Y-%m-%d %H:%i:%s')
+                </if>
+
+                <if test="pageInfo.endTime != null and pageInfo.endTime != ''">
+                    AND createtime &lt;= STR_TO_DATE(#{pageInfo.endTime}, '%Y-%m-%d %H:%i:%s')
+                </if>
+            </if>
+
+        </where>
+
+    </select>
+
+
+</mapper>

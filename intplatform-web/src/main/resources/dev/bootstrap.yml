@@ -1,0 +1,21 @@
+server:
+  port: 8106
+
+##日志文件配置
+logging:
+  config: classpath:logback.xml
+
+#spring
+spring:
+  application:
+    name: intplatform
+
+## swagger配置
+swagger:
+  docket:
+    host: localhost:${server.port}
+
+info:
+  port: ${server.port}
+  app-name: ${spring.application.name}
+  swagger-url: http://${swagger.docket.host}/swagger-ui.html
